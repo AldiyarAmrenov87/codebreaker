@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-# Добавляем папку /lib в пути поиска (LOAD_PATH)
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
-require 'codebreaker'
+import_path = File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift(import_path) unless $LOAD_PATH.include?(import_path)
+
+# Автоматическая настройка Bundler (если используется Gemfile)
+if File.exist?(File.expand_path('../Gemfile.lock', __dir__))
+  require 'bundler/setup'
+end
+
+# Перенаправление запуска на реальный исполняемый файл
+load File.expand_path('../exe/codebreaker.rb', __dir__)
