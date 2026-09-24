@@ -1,2 +1,3 @@
 require 'codebreaker'
-puts "Welcome to Codebreaker!" 
+
+Codebreaker::Game.new(STDOUT).start
