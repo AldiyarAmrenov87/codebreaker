@@ -15,28 +15,30 @@ module Codebreaker
 		end
 
 		def guess(guess)
-			mark = ''
-      secret = @secret_code.dup #без метода dup здесь было бы запись адреса на значение, а не значения. С dup же присваивается новый объект. 
+      exact_match_count = 0
+      number_match_count = 0
+      secret = @secret_code.dup 
 
       guess.each_char.with_index do |char, index| 
-      	if secret[index] == char
-      		mark << '+'
-          	guess[index] = secret[index] = ' '
-          end 
-     	end
+        if secret[index] == char
+          exact_match_count += 1
+          guess[index] = secret[index] = ' '
+        end 
+      end
 
-    	secret.delete!(' ')
-    	guess.delete!(' ')
+      secret.delete!(' ')
+      guess.delete!(' ')
       
-    	guess.each_char do |char|
-      	if secret.include?(char)
-          	mark << '-'
-          	secret.sub!(char, "")
-          end
-    	end
+      guess.each_char do |char|
+        if secret.include?(char)
+          number_match_count += 1
+          secret.sub!(char, "")
+        end
+      end
 
-    	return mark
-		end
+      mark = '+'*exact_match_count + '-'*number_match_count
+      return mark
+    end
 
 		def generate_secret
 			options = %w[1 2 3 4 5 6]
