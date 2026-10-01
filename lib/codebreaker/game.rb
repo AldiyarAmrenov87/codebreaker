@@ -15,33 +15,27 @@ module Codebreaker
 		end
 
 		def guess(guess)
-      secret = @secret_code.dup 
-      
-      exact_match_count = exact_match_count(guess, secret)
-      guess.delete!(' ')
-      secret.delete!(' ')
-      number_match_count = number_match_count(guess, secret)
+      exact_match_count = exact_match_count(guess)
+      number_match_count = number_match_count(guess)
       
       mark = '+'*exact_match_count + '-'*number_match_count
-      return mark
+       return mark
     end
 
-    def exact_match_count(guess, secret)
+    def exact_match_count(guess)
       result = 0
       guess.each_char.with_index do |char, index| 
-        if secret[index] == char
-          guess[index] = secret[index] = ' '
-          result += 1
-        end 
+        result += 1 if @secret_code[index] == char
       end
       return result
     end
 
-    def number_match_count(guess, secret)
+    def number_match_count(guess)
+      secret = @secret_code.dup
       result = 0
-      guess.each_char do |char|
-        if secret.include?(char)
-          secret.sub!(char, "")
+      guess.each_char.with_index do |char, index|
+        if secret[index] != char && secret.include?(char)
+          secret.sub!(char, " ")
           result += 1
         end
       end
