@@ -24,20 +24,28 @@ module Codebreaker
 
     def exact_match_count(guess) 
       (0..3).inject(0) do |count, index|
-        count + (@secret_code[index] == guess[index] ? 1 : 0)
+        count + (exact_match?(guess, index) ? 1 : 0)
       end
     end
 
     def number_match_count(guess)
       secret = @secret_code.dup
       (0..3).inject(0) do |count, index|
-        if secret[index] != guess[index] && secret.include?(guess[index])
+        if number_match?(guess, index)
           secret.sub!(guess[index], " ")
           count + 1
         else
           count + 0
         end
       end
+    end
+
+    def exact_match?(guess, index)
+      guess[index] == @secret_code[index]
+    end
+
+    def number_match?(guess, index)
+      !exact_match?(guess, index) && @secret_code.include?(guess[index])
     end
 
 		def generate_secret
