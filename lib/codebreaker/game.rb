@@ -22,24 +22,22 @@ module Codebreaker
        return mark
     end
 
-    def exact_match_count(guess)
-      result = 0
-      guess.each_char.with_index do |char, index| 
-        result += 1 if @secret_code[index] == char
+    def exact_match_count(guess) 
+      (0..3).inject(0) do |count, index|
+        count + (@secret_code[index] == guess[index] ? 1 : 0)
       end
-      return result
     end
 
     def number_match_count(guess)
       secret = @secret_code.dup
-      result = 0
-      guess.each_char.with_index do |char, index|
-        if secret[index] != char && secret.include?(char)
-          secret.sub!(char, " ")
-          result += 1
+      (0..3).inject(0) do |count, index|
+        if secret[index] != guess[index] && secret.include?(guess[index])
+          secret.sub!(guess[index], " ")
+          count + 1
+        else
+          count + 0
         end
       end
-      return result
     end
 
 		def generate_secret
