@@ -1,3 +1,3 @@
 require 'codebreaker'
 
-Codebreaker::Game.new(STDOUT).start
+Codebreaker::Game.new.start # по умолчанию передаются стандартные ввод и вывод

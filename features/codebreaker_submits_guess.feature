@@ -18,7 +18,7 @@ Feature: codebreaker_submits_guess
       Scenario Outline: submit guess
         Given the secret code is "<code>"
         When I guess "<guess>"
-        Then I should see mark "<mark>"
+        Then I should see "<mark>"
         
         Scenarios: no matches
           | code | guess | mark |
