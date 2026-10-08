@@ -8,8 +8,8 @@ module Codebreaker
 
 		def start
 			@output.puts("Welcome to Codebreaker!")
-			@output.puts("Enter guess:")
 			@secret_code = generate_secret
+			@output.puts("Enter guess:")
 			result = Marker.mark(@secret_code, @input.gets.chomp)
 			@output.puts(result)
 		end
