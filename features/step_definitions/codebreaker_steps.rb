@@ -2,8 +2,8 @@ Given('I am not yet playing') do
 end
 
 When('I start a new game') do
-  fake_input.puts("1234\n") #передаем догадку натурально - вместе с символом переноса строки, - поскольку #start будет её урезать(chomp)
-  fake_input.rewind
+  allow(fake_input).to receive(:gets).and_return("1234\n")
+  allow(Codebreaker::Marker).to receive(:mark).and_return("++++")
   app.start
 end
 
