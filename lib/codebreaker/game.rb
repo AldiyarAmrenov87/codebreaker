@@ -10,8 +10,12 @@ module Codebreaker
 			@output.puts("Welcome to Codebreaker!")
 			@secret_code = generate_secret
 			@output.puts("Enter guess:")
-			result = Marker.mark(@secret_code, @input.gets.chomp)
-			@output.puts(result)
+			loop do
+				result = Marker.mark(@secret_code, @input.gets.chomp)
+				@output.puts(result)
+				break if result == "++++"
+			end
+			@output.puts("Congratulations! You won!")
 		end
 
 		def generate_secret
