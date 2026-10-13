@@ -69,11 +69,11 @@ Then('The game should continue') do
 end
 
 Then('The game should end with won') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(app).to be_won # Write code here that turns the phrase above into concrete actions
 end
 
 Then('The game should end with lost') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(app).to be_lost # Write code here that turns the phrase above into concrete actions
 end
 
 #expect(app).to be_won

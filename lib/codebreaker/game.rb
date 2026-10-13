@@ -18,9 +18,18 @@ module Codebreaker
 				result = Marker.mark(@secret_code, @input.gets.chomp)
 				@attempts -= 1
 				@output.puts(result)
-				break if result == "++++"
+				if result == "++++"
+					@status = :won
+				elsif no_attempts_left?
+					@status = :lost
+				end
 			end
-			@output.puts("Congratulations! You won!")
+
+			if won?
+				@output.puts("Congratulations! You won!")
+			elsif lost? 
+				@output.puts("You lose! The secret code is #{@secret_code}")
+			end
 		end
 
 		def generate_secret
@@ -30,6 +39,18 @@ module Codebreaker
 
 		def playing?
 			@status == :playing
+		end
+
+		def lost?
+			@status == :lost
+		end
+
+		def won?
+			@status == :won
+		end
+
+		def no_attempts_left?
+			@attempts == 0
 		end
 	end
 end
