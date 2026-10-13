@@ -20,8 +20,23 @@ end
 When('I guess {string}') do |guess|
   fake_input.puts("#{guess}\n")
   fake_input.rewind
-  def app.loop
-    yield # yield просто выполнит код внутри loop { ... } один раз и выйдет
+  #allow(app).to receive(:playing?).and_return(true, false, true)
+  call_count = 0
+
+  allow(app).to receive(:playing?) do
+    call_count += 1
+    
+    case call_count
+    when 1
+      # 1-й вызов (вход в while): возвращает реальный статус (:playing -> true)
+      app.class.instance_method(:playing?).bind_call(app)
+    when 2
+      # 2-й вызов (проверка 2-й итерации): принудительный false для выхода
+      false
+    else
+      # 3-й вызов и далее (для шага Then): снова возвращает настоящий статус
+      app.class.instance_method(:playing?).bind_call(app)
+    end
   end
   app.start
 end
@@ -40,3 +55,48 @@ Then('I should see the markings in the following order:') do |table|
     expect(all_text).to include(mark)
   end
 end
+
+Given('The game has started with {string} attempts') do |string|
+  app.instance_variable_set(:@attempts, string.to_i)
+end
+
+Then('The remaining attempts count should be {string}') do |string|
+  expect(app.attempts).to eq(string.to_i)
+end
+
+Then('The game should continue') do
+  expect(app).to be_playing #
+end
+
+Then('The game should end with won') do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then('The game should end with lost') do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+#expect(app).to be_won
+#expect(app).to be_lost
+
+#class Game
+  # Позволяет получить статус напрямую, если это нужно для логики: game.status
+  #attr_reader :status 
+
+#  def initialize
+#    @status = :playing # Возможные значения: :playing, :wins, :lost
+#  end
+
+  # Лексически более правильно использовать формы глаголов/прилагательных
+#  def playing?
+#    @status == :playing
+#  end
+
+#  def won? # Вместо wins? лучше использовать won? (выиграл), так звучит естественнее
+#    @status == :wins
+#  end
+
+#  def lost?
+#    @status == :lost
+#  end
+#end

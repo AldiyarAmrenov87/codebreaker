@@ -29,7 +29,7 @@ Feature: Codebreaker loses game
 		Given The game has started with "5" attempts
 		And The secret code is "1234"
 		When I guess "2234"
-		Then the remaining attempts count should be "4"
+		Then The remaining attempts count should be "4"
 		And The game should continue
 
 	Scenario: Losing the game when running out of attempts
@@ -39,12 +39,14 @@ Feature: Codebreaker loses game
 				| 5555 |
 				| 1255 |
 				| 1235 |
-		Then I should see "You lose! The secret code is 1234"
-		And The game should end
+		Then The remaining attempts count should be "0"
+		And I should see "You lose! The secret code is 1234"
+		And The game should end with lost
 
 	Scenario: Winning on the last attempt
 		Given The game has started with "1" attempts
 		And The secret code is "1234"
 		When I guess "1234"
-		Then I should see "Congratulations! You won!"
-		And The game should end
+		Then The remaining attempts count should be "0"
+		And I should see "Congratulations! You won!"
+		And The game should end with won
