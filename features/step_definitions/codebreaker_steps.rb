@@ -4,7 +4,7 @@ end
 When('I start a new game') do
   allow(fake_input).to receive(:gets).and_return("1234\n")
   allow(Codebreaker::Marker).to receive(:mark).and_return("++++")
-  app.start
+  cli.run
 end
 
 Then('I should see {string}') do |expected_string|
@@ -14,13 +14,12 @@ Then('I should see {string}') do |expected_string|
 end
 
 Given('The secret code is {string}') do |secret|
-  allow(app).to receive(:generate_secret).and_return(secret)
+  allow(Codebreaker::Game).to receive(:generate_secret).and_return(secret)
 end
 
 When('I guess {string}') do |guess|
   fake_input.puts("#{guess}\n")
   fake_input.rewind
-  #allow(app).to receive(:playing?).and_return(true, false, true)
   call_count = 0
 
   allow(app).to receive(:playing?) do
@@ -38,14 +37,14 @@ When('I guess {string}') do |guess|
       app.class.instance_method(:playing?).bind_call(app)
     end
   end
-  app.start
+  cli.run
 end
 
 When('I successively enter the following guesses:') do |table|
   guesses = table.raw.flatten
   inputs = guesses.map { |guess| "#{guess}\n" }
   allow(fake_input).to receive(:gets).and_return(*inputs)
-  app.start
+  cli.run
 end
 
 Then('I should see the markings in the following order:') do |table|

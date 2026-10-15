@@ -1,23 +1,27 @@
 module Codebreaker
 	class Game
+		
+		def self.generate_secret
+			options = %w[1 2 3 4 5 6]
+			(1..4).map { options.delete_at(rand(options.length))}.join
+		end
 
 		attr_reader :attempts
 
-		def initialize(input: $stdin, output: $stdout, attempts: 10)
-			@input = input
-			@output = output
+		def initialize(console:, attempts: 10)
+			@console = console
 			@attempts = attempts
 			@status = :playing
 		end
 
 		def start
-			@output.puts("Welcome to Codebreaker!")
-			@secret_code = generate_secret
-			@output.puts("Enter guess:")
-			while playing? do
-				result = Marker.mark(@secret_code, @input.gets.chomp)
+			@console.puts("Welcome to Codebreaker!")
+			@secret_code = self.class.generate_secret
+			@console.puts("Enter guess:")
+			while self.class.playing? do
+				result = Marker.mark(@secret_code, @console.gets.chomp)
 				@attempts -= 1
-				@output.puts(result)
+				@console.puts(result)
 				if result == "++++"
 					@status = :won
 				elsif no_attempts_left?
@@ -26,18 +30,14 @@ module Codebreaker
 			end
 
 			if won?
-				@output.puts("Congratulations! You won!")
+				@console.puts("Congratulations! You won!")
 			elsif lost? 
-				@output.puts("You lose! The secret code is #{@secret_code}")
+				@console.puts("You lose! The secret code is #{@secret_code}")
 			end
 		end
 
-		def generate_secret
-			options = %w[1 2 3 4 5 6]
-			(1..4).map { options.delete_at(rand(options.length))}.join
-		end
 
-		def playing?
+		def self.playing?
 			@status == :playing
 		end
 

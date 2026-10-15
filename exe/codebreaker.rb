@@ -1,3 +1,6 @@
 require 'codebreaker'
 
-Codebreaker::Game.new.start # по умолчанию передаются стандартные ввод и вывод
+Codebreaker::CLI.new(
+  input:  $stdin,
+  output: $stdout
+).run
