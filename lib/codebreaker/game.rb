@@ -1,10 +1,5 @@
 module Codebreaker
 	class Game
-		
-		def self.generate_secret
-			options = %w[1 2 3 4 5 6]
-			(1..4).map { options.delete_at(rand(options.length))}.join
-		end
 
 		attr_reader :attempts
 
@@ -16,10 +11,12 @@ module Codebreaker
 
 		def start
 			@console.puts("Welcome to Codebreaker!")
-			@secret_code = self.class.generate_secret
+			@secret_code = Codebreaker::SecretCode.generate
 			@console.puts("Enter guess:")
-			while self.class.playing? do
-				result = Marker.mark(@secret_code, @console.gets.chomp)
+			while playing? do
+				guess = @console.gets
+				break if guess.nil?
+				result = Marker.mark(@secret_code, guess.chomp)
 				@attempts -= 1
 				@console.puts(result)
 				if result == "++++"
@@ -37,7 +34,7 @@ module Codebreaker
 		end
 
 
-		def self.playing?
+		def playing?
 			@status == :playing
 		end
 

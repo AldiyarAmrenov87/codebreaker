@@ -2,8 +2,6 @@ Given('I am not yet playing') do
 end
 
 When('I start a new game') do
-  allow(fake_input).to receive(:gets).and_return("1234\n")
-  allow(Codebreaker::Marker).to receive(:mark).and_return("++++")
   cli.run
 end
 
@@ -14,29 +12,12 @@ Then('I should see {string}') do |expected_string|
 end
 
 Given('The secret code is {string}') do |secret|
-  allow(Codebreaker::Game).to receive(:generate_secret).and_return(secret)
+  allow(Codebreaker::SecretCode).to receive(:generate).and_return(secret)
 end
 
 When('I guess {string}') do |guess|
   fake_input.puts("#{guess}\n")
   fake_input.rewind
-  call_count = 0
-
-  allow(app).to receive(:playing?) do
-    call_count += 1
-    
-    case call_count
-    when 1
-      # 1-й вызов (вход в while): возвращает реальный статус (:playing -> true)
-      app.class.instance_method(:playing?).bind_call(app)
-    when 2
-      # 2-й вызов (проверка 2-й итерации): принудительный false для выхода
-      false
-    else
-      # 3-й вызов и далее (для шага Then): снова возвращает настоящий статус
-      app.class.instance_method(:playing?).bind_call(app)
-    end
-  end
   cli.run
 end
 
