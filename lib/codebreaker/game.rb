@@ -3,9 +3,9 @@ module Codebreaker
 
 		attr_reader :attempts
 
-		def initialize(console:, attempts: 10)
-			@console = console
-			@attempts = attempts
+		def initialize(**options)
+			@console = options[:console]
+			@attempts = options[:attempts]
 			@status = :playing
 		end
 
@@ -19,6 +19,7 @@ module Codebreaker
 				result = Marker.mark(@secret_code, guess.chomp)
 				@attempts -= 1
 				@console.puts(result)
+				@console.puts("#{attempts} attempts left")
 				if result == "++++"
 					@status = :won
 				elsif no_attempts_left?

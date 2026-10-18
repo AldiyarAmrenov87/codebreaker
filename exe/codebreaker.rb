@@ -2,5 +2,6 @@ require 'codebreaker'
 
 Codebreaker::CLI.new(
   input:  $stdin,
-  output: $stdout
+  output: $stdout,
+  attempts: 10
 ).run
