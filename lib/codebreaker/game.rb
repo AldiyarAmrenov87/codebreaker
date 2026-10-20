@@ -13,24 +13,31 @@ module Codebreaker
 			@console.puts("Welcome to Codebreaker!")
 			@secret_code = Codebreaker::SecretCode.generate
 			@console.puts("Enter guess:")
+			
 			while playing? do
-				guess = @console.gets
-				break if guess.nil?
-				result = Marker.mark(@secret_code, guess.chomp)
-				@attempts -= 1
-				@console.puts(result)
-				@console.puts("#{attempts} attempts left")
-				if result == "++++"
-					@status = :won
-				elsif no_attempts_left?
-					@status = :lost
+				raw = @console.gets
+				break if raw.nil?
+
+				begin
+					parsed = Codebreaker::Guess.parse(raw)
+					result = Marker.mark(@secret_code.value, parsed.value)
+					@attempts -= 1
+					@console.puts(result)
+					@console.puts("#{attempts} attempts left")
+					if result == "++++"
+						@status = :won
+					elsif no_attempts_left?
+						@status = :lost
+					end
+				rescue InvalidGuess => e
+					@console.puts "Error: #{e.message}. Attempt not counted."
 				end
 			end
 
 			if won?
 				@console.puts("Congratulations! You won!")
 			elsif lost? 
-				@console.puts("You lose! The secret code is #{@secret_code}")
+				@console.puts("You lose! The secret code is #{@secret_code.value}")
 			end
 		end
 

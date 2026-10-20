@@ -18,7 +18,9 @@ Then('I should not see {string}') do |string|
 end
 
 Given('The secret code is {string}') do |secret|
-  allow(Codebreaker::SecretCode).to receive(:generate).and_return(secret)
+  secret_code_instance = Codebreaker::SecretCode.new(secret)
+  
+  allow(Codebreaker::SecretCode).to receive(:generate).and_return(secret_code_instance)
 end
 
 When('I guess {string}') do |guess|
