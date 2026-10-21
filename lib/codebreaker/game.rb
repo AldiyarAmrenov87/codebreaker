@@ -20,11 +20,14 @@ module Codebreaker
 
 				begin
 					parsed = Codebreaker::Guess.parse(raw)
-					result = Marker.mark(@secret_code.value, parsed.value)
+					
 					@attempts -= 1
-					@console.puts(result)
 					@console.puts("#{attempts} attempts left")
-					if result == "++++"
+					
+					result = Marker.evaluate(secret_code_value: @secret_code.value, guess_value: parsed.value)
+					@console.puts(result)
+					
+					if @secret_code.matches?(parsed.value)
 						@status = :won
 					elsif no_attempts_left?
 						@status = :lost

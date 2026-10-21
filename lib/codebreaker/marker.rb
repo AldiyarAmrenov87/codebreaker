@@ -1,12 +1,23 @@
 module Codebreaker
   class Marker
-    def self.mark(secret_code, guess)
-      @@secret_code = secret_code.dup
-      @@guess = guess
-      
-      mark = '+'*exact_match_count + '-'*number_match_count
-      return mark
+    attr_reader :exact_match_count, :number_match_count
+
+    def self.evaluate(secret_code_value:, guess_value:)
+      @@secret_code = secret_code_value.dup
+      @@guess = guess_value
+      new(self.exact_match_count, self.number_match_count)
     end
+
+    def initialize(exact_match_count, number_match_count)
+      @exact_match_count = exact_match_count
+      @number_match_count = number_match_count
+    end
+
+    def to_s
+      '+'*exact_match_count + '-'*number_match_count
+    end
+
+    private
 
     def self.exact_match_count 
       (0..3).inject(0) do |count, index|
