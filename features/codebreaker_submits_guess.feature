@@ -48,3 +48,14 @@ Feature: codebreaker_submits_guess
           | 1234 | 1243  | ++-- |
           | 1234 | 1423  | +--- |
           | 1234 | 4321  | ---- |
+
+      Scenario: submit guesses successively
+        Given The secret code is "0697"
+        When I successively enter the following guesses:
+            | 0679 |
+            | 6089 |
+            | 0697 |
+        Then I should see the markings in the following order:
+            | ++-- |
+            | ---  |
+            | ++++ |
