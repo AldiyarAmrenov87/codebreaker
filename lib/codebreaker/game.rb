@@ -1,7 +1,7 @@
 module Codebreaker
 	class Game
 
-		attr_reader :attempts
+		attr_reader :attempts, :secret_code
 
 		def initialize(**options)
 			@console = options[:console]
@@ -10,9 +10,8 @@ module Codebreaker
 		end
 
 		def start
-			@console.puts("Welcome to Codebreaker!")
+			@console.puts Codebreaker::Messages.welcome
 			@secret_code = Codebreaker::SecretCode.generate
-			@console.puts("Enter guess:")
 			
 			while playing? do
 				raw = @console.gets
@@ -22,25 +21,25 @@ module Codebreaker
 					parsed = Codebreaker::Guess.parse(raw)
 					
 					@attempts -= 1
-					@console.puts("#{attempts} attempts left")
-					
-					result = Marker.evaluate(secret_code_value: @secret_code.value, guess_value: parsed.value)
-					@console.puts(result)
+					@console.puts Codebreaker::Messages.prompt(attempts)
+		
+					marker = Marker.evaluate(secret_code_value: @secret_code.value, guess_value: parsed.value)
+					@console.puts Codebreaker::Messages.mark(marker)
 					
 					if @secret_code.matches?(parsed.value)
 						@status = :won
 					elsif no_attempts_left?
 						@status = :lost
 					end
-				rescue InvalidGuess => e
-					@console.puts "Error: #{e.message}. Attempt not counted."
+				rescue Codebreaker::InvalidGuess => e
+					@console.puts Codebreaker::Messages.error(e.code)
 				end
 			end
 
 			if won?
-				@console.puts("Congratulations! You won!")
+				@console.puts Codebreaker::Messages.result(self)
 			elsif lost? 
-				@console.puts("You lose! The secret code is #{@secret_code.value}")
+				@console.puts Codebreaker::Messages.result(self)
 			end
 		end
 

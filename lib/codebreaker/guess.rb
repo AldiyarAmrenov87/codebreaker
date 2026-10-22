@@ -17,7 +17,7 @@ module Codebreaker
 
     def validate!
       return if FORMAT.match?(value)
-      raise Codebreaker::InvalidGuess, 'You need to enter exactly 4 digits.'
+      raise Codebreaker::InvalidGuess, :invalid_length
     end
   end
 end

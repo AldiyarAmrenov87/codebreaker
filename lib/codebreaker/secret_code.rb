@@ -16,5 +16,9 @@ module Codebreaker
 		def matches?(guess)
 		  value == guess
 		end
+
+		def to_s
+			@value
+		end
 	end
 end
