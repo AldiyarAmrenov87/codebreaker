@@ -16,60 +16,60 @@ module Codebreaker
 
 		describe '.marker' do
 			it 'converts marker to string' do
-	      # Создаем двойника для Marker и настраиваем его метод #to_s
-	      marker = instance_double('Codebreaker::Marker', to_s: '++--')
+	      		# Создаем двойника для Marker и настраиваем его метод #to_s
+	      		marker = instance_double('Codebreaker::Marker', to_s: '++--')
 
-	      expect(described_class.mark(marker)).to eq('++--')
-	    end
+	      		expect(described_class.mark(marker)).to eq('++--')
+	    	end
 		end
 
 		describe '.error' do
-	    it 'returns formatted error message' do
-	      error_code = :invalid_length
+		    it 'returns formatted error message' do
+		      error_code = :invalid_length
 
-	      expect(described_class.error(error_code)).to eq("Error: You need to enter exactly 4 digits. Attempt not counted.")
-	    end
-	  end
+		      expect(described_class.error(error_code)).to eq("Error: You need to enter exactly 4 digits. Attempt not counted.")
+		    end
+	  	end
 
 		describe '.result' do
 			# Задаем базового двойника для сессии (игры)
-    	let(:game) { instance_double('Codebreaker::Game') }
+    		let(:session) { instance_double('Codebreaker::Session') }
 
-			context "when the game is lost" do
+			context "when the session is lost" do
 				let(:secret_double) { instance_double('Codebreaker::SecretCode', to_s: '1234') }
 
 				before do
-					allow(game).to receive(:won?).and_return(false)
-    			allow(game).to receive(:lost?).and_return(true)
-    			allow(game).to receive(:secret_code).and_return(secret_double)
+					allow(session).to receive(:won?).and_return(false)
+    				allow(session).to receive(:lost?).and_return(true)
+    				allow(session).to receive(:secret_code).and_return(secret_double)
 				end
 
 				it 'returns losing message with revealed secret code' do
-			    expect(described_class.result(game)).to eq("You lose! The secret code is 1234")
+			    expect(described_class.result(session)).to eq("You lose! The secret code is 1234")
 			  end
 			end
 
 			context "when the game is won" do
 				before do
-					allow(game).to receive(:won?).and_return(true)
-    			allow(game).to receive(:lost?).and_return(false)
+					allow(session).to receive(:won?).and_return(true)
+    				allow(session).to receive(:lost?).and_return(false)
 				end
 
 				it 'returns winning message' do
-			    expect(described_class.result(game)).to eq("Congratulations! You won!")
-			  end
+			    	expect(described_class.result(session)).to eq("Congratulations! You won!")
+			  	end
 			end
 
 			context 'when the game is still in progress' do
-	      before do
-	        allow(game).to receive(:won?).and_return(false)
-	        allow(game).to receive(:lost?).and_return(false)
-	      end
+	      		before do
+	        		allow(session).to receive(:won?).and_return(false)
+	        		allow(session).to receive(:lost?).and_return(false)
+	      		end
 
-	      it 'returns nil' do
-	        expect(described_class.result(game)).to be_nil
-	      end
-	    end
+	      		it 'returns nil' do
+	        		expect(described_class.result(session)).to be_nil
+	      		end
+	    	end
 		end
 	end
 end

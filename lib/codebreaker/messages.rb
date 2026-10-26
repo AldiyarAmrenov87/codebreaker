@@ -22,8 +22,8 @@ module Codebreaker
     		"Error: #{message}. Attempt not counted."
 		end
 
-		def self.result(game)
-			if game.won?
+		def self.result(session)
+			if session.won?
         		"Congratulations! You won!"
       		elsif game.lost?
       			"You lose! The secret code is #{game.secret_code}"

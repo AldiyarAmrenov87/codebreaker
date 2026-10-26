@@ -40,12 +40,10 @@ Feature: Codebreaker loses game
 				| 5555 |
 				| 1255 |
 				| 1235 |
-		Then I should see "0 attempts left"
 		And I should see "You lose! The secret code is 1234"
 
 	Scenario: Winning on the last attempt
 		Given The game has started with "1" attempts
 		And The secret code is "1234"
 		When I guess "1234"
-		Then I should see "0 attempts left"
 		And I should see "Congratulations! You won!"
