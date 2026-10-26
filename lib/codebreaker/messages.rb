@@ -25,8 +25,8 @@ module Codebreaker
 		def self.result(session)
 			if session.won?
         		"Congratulations! You won!"
-      		elsif game.lost?
-      			"You lose! The secret code is #{game.secret_code}"
+      		elsif session.lost?
+      			"You lose! The secret code is #{session.secret_code}"
       		end
 		end
 	end

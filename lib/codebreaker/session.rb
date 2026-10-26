@@ -12,7 +12,7 @@ module Codebreaker
 		end
 
 		def guess(guess)
-			marker = Codebreaker::Marker.evaluate(secret_code_value: @secret_code.value, guess_value: guess.value)
+			marker = Codebreaker::Marker.evaluate(secret_code: @secret_code, guess: guess)
 			
 			@attempts -= 1
 			@history << Attempt.new(guess: guess, marker: marker)
@@ -30,7 +30,7 @@ module Codebreaker
 
 		def transition!
 			current_attempt = @history.last
-			if @secret_code.matches?(current_attempt.guess.value)
+			if @secret_code.matches?(current_attempt.guess)
 				@state = :won
 			elsif @attempts.zero?
 				@state = :lost

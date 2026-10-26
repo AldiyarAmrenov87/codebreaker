@@ -54,7 +54,7 @@ module Codebreaker
 				attempt = session.history.last
 
 				expect(attempt.guess).to be_a(Codebreaker::Guess)
-				expect(attempt.guess.value).to 	eq('1235')
+				expect(attempt.guess).to eq(guess)
 				expect(attempt.marker).to eq(marker)
 			end
 

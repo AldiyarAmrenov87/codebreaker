@@ -13,8 +13,8 @@ module Codebreaker
 		  @value = value
 		end
 
-		def matches?(guess_value)
-		  value == guess_value
+		def matches?(guess)
+		  value == guess.value
 		end
 
 		def to_s
