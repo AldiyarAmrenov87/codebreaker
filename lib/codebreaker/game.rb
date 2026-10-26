@@ -1,56 +1,32 @@
 module Codebreaker
 	class Game
-
-		attr_reader :attempts
-
-		def initialize(input: $stdin, output: $stdout, attempts: 10)
-			@input = input
-			@output = output
-			@attempts = attempts
-			@status = :playing
+		def initialize(**options)
+			@console = options[:console]
+			@attempts = options[:attempts]
 		end
 
 		def start
-			@output.puts("Welcome to Codebreaker!")
-			@secret_code = generate_secret
-			@output.puts("Enter guess:")
-			while playing? do
-				result = Marker.mark(@secret_code, @input.gets.chomp)
-				@attempts -= 1
-				@output.puts(result)
-				if result == "++++"
-					@status = :won
-				elsif no_attempts_left?
-					@status = :lost
+			@console.puts Codebreaker::Messages.welcome
+			secret_code = Codebreaker::SecretCode.generate
+			session = Session.new(secret_code: secret_code, attempts: @attempts)
+			while session.playing? do
+				@console.puts Codebreaker::Messages.prompt(session.attempts)
+				raw = @console.gets
+				break if raw.nil?
+				begin
+					parsed = Codebreaker::Guess.parse(raw)
+
+					marker = session.guess(parsed)
+					@console.puts Codebreaker::Messages.mark(marker)
+				rescue Codebreaker::InvalidGuess => e
+					@console.puts Codebreaker::Messages.error(e.code)
 				end
 			end
-
-			if won?
-				@output.puts("Congratulations! You won!")
-			elsif lost? 
-				@output.puts("You lose! The secret code is #{@secret_code}")
+			if session.won?
+				@console.puts Codebreaker::Messages.result(session)
+			elsif session.lost? 
+				@console.puts Codebreaker::Messages.result(session)
 			end
-		end
-
-		def generate_secret
-			options = %w[1 2 3 4 5 6]
-			(1..4).map { options.delete_at(rand(options.length))}.join
-		end
-
-		def playing?
-			@status == :playing
-		end
-
-		def lost?
-			@status == :lost
-		end
-
-		def won?
-			@status == :won
-		end
-
-		def no_attempts_left?
-			@attempts == 0
 		end
 	end
 end
