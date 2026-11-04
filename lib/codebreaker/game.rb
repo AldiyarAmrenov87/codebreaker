@@ -30,6 +30,7 @@ module Codebreaker
 			elsif session.lost? 
 				@console.puts Codebreaker::Messages.result(session)
 			end
+			@console.puts Codebreaker::Messages.play_again
 		end
 	end
 end

@@ -30,21 +30,19 @@ When('I start a new game') do
 end
 
 Then('I should see {string}') do |string|
-  all_text = fake_output.string
+  # all_text = fake_output.string
   
-  expect(all_text).to include(string)
+  # expect(all_text).to include(string)
+
+  expect(fresh_output).to include(string)
+  consume_output_up_to!(string)
 end
 
 Then('I should not see {string}') do |unexpected_string|
-  all_text = fake_output.string
+  # all_text = fake_output.string
   
-  expect(all_text).not_to include(unexpected_string)
-end
-
-Then('I should not see {string}') do |string|
-  all_text = fake_output.string
-  
-  expect(all_text).not_to include(string)
+  # expect(all_text).not_to include(unexpected_string)
+  expect(fresh_output).not_to include(unexpected_string)
 end
 
 When('I guess {string}') do |guess|

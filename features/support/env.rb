@@ -27,6 +27,20 @@ module AppContext
       attempts: attempts
     )
   end
+
+  def fresh_output
+    start_pos = @last_checked_position || 0
+    fake_output.string[start_pos..-1] || ""
+  end
+
+  def consume_output_up_to!(text)
+    current_fresh = fresh_output
+    index = current_fresh.index(text)
+    
+    if index
+      @last_checked_position = (@last_checked_position || 0) + index + text.length
+    end
+  end
 end
 
 World(AppContext)

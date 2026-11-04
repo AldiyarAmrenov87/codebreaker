@@ -17,7 +17,7 @@ module Codebreaker
 		describe '.prompt' do
 			it 'returns prompt text with remaining attempts count' do
 				attempts_left = 5
-				expect(described_class.prompt(attempts_left)).to eq('5 attempts left')
+				expect(described_class.prompt(attempts_left)).to eq('Enter guess (5 attempts left):')
 			end
 		end
 
@@ -77,6 +77,12 @@ module Codebreaker
 	        expect(described_class.result(session)).to be_nil
 	      end
 	    end
+		end
+
+		describe '.play_again' do
+			it 'returns a question asking whether the codebreaker wants to play again' do
+				expect(described_class.play_again).to eq('Play again? (y/n):')
+			end
 		end
 	end
 end
