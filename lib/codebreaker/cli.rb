@@ -8,7 +8,7 @@ module Codebreaker
 		def run
 			# собираем опции для игры
 			game_options = { console: @console }
-      		game_options[:attempts] = @attempts if @attempts
+      game_options[:attempts] = @attempts if @attempts
 			
 			game = Game.new(**game_options)
 			game.start

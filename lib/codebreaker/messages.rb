@@ -6,11 +6,16 @@ module Codebreaker
     }.freeze
 
 		def self.welcome
-			"Welcome to Codebreaker!\nEnter guess:"
+			"Welcome to Codebreaker!"
+		end
+
+		def self.session_number(number_of_sessions)
+			"Round ##{number_of_sessions}."
 		end
 
 		def self.prompt(attempts_left)
 			"#{attempts_left} attempts left"
+			# "Enter guess (#{attempts_left} attempts left):"
 		end
 
 		def self.mark(marker)

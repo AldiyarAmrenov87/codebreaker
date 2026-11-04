@@ -3,12 +3,15 @@ module Codebreaker
 		def initialize(**options)
 			@console = options[:console]
 			@attempts = options[:attempts]
+			@game_sessions = []
 		end
 
 		def start
 			@console.puts Codebreaker::Messages.welcome
 			secret_code = Codebreaker::SecretCode.generate
 			session = Session.new(secret_code: secret_code, attempts: @attempts)
+			@game_sessions << session
+			@console.puts Codebreaker::Messages.session_number(@game_sessions.size)
 			while session.playing? do
 				@console.puts Codebreaker::Messages.prompt(session.attempts)
 				raw = @console.gets

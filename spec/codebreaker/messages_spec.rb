@@ -3,7 +3,14 @@ module Codebreaker
 		
 		describe '.welcome' do
 			it 'returns welcome message' do
-				expect(described_class.welcome).to eq("Welcome to Codebreaker!\nEnter guess:")
+				expect(described_class.welcome).to eq("Welcome to Codebreaker!")
+			end
+		end
+
+		describe '.session_number' do
+			it 'returns current session sequence number' do
+				number_of_sessions = 5
+				expect(described_class.session_number(number_of_sessions)).to eq("Round #5.")
 			end
 		end
 
