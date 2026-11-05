@@ -1,7 +1,7 @@
 module Codebreaker
 	class SecretCode
 		LENGTH = 4
-		DIGITS = ('0'..'9').to_a
+		DIGITS = ('0'..'5').to_a
 
 		def self.generate
 		  new(DIGITS.sample(LENGTH).join)

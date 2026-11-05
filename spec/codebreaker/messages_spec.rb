@@ -84,5 +84,11 @@ module Codebreaker
 				expect(described_class.play_again).to eq('Play again? (y/n):')
 			end
 		end
+
+		describe '.game_over' do
+			it 'returns game over message' do
+				expect(described_class.game_over).to eq('Game over!')
+			end
+		end
 	end
 end

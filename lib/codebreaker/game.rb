@@ -1,5 +1,7 @@
 module Codebreaker
 	class Game
+		attr_reader :attempts
+
 		def initialize(**options)
 			@console = options[:console]
 			@attempts = options[:attempts]
@@ -8,29 +10,39 @@ module Codebreaker
 
 		def start
 			@console.puts Codebreaker::Messages.welcome
-			secret_code = Codebreaker::SecretCode.generate
-			session = Session.new(secret_code: secret_code, attempts: @attempts)
-			@game_sessions << session
-			@console.puts Codebreaker::Messages.session_number(@game_sessions.size)
-			while session.playing? do
-				@console.puts Codebreaker::Messages.prompt(session.attempts)
-				raw = @console.gets
-				break if raw.nil?
-				begin
-					parsed = Codebreaker::Guess.parse(raw)
+			loop do
+				secret_code = Codebreaker::SecretCode.generate
+				session = Session.new(secret_code: secret_code, attempts: attempts)
+				@game_sessions << session
+				@console.puts Codebreaker::Messages.session_number(@game_sessions.size)
+				while session.playing? do
+					@console.puts Codebreaker::Messages.prompt(session.attempts)
+					raw = @console.gets
+					break if raw.nil?
+					begin
+						parsed = Codebreaker::Guess.parse(raw)
 
-					marker = session.guess(parsed)
-					@console.puts Codebreaker::Messages.mark(marker)
-				rescue Codebreaker::InvalidGuess => e
-					@console.puts Codebreaker::Messages.error(e.code)
+						marker = session.guess(parsed)
+						@console.puts Codebreaker::Messages.mark(marker)
+					rescue Codebreaker::InvalidGuess => e
+						@console.puts Codebreaker::Messages.error(e.code)
+					end
 				end
+				if session.won?
+					@console.puts Codebreaker::Messages.result(session)
+				elsif session.lost? 
+					@console.puts Codebreaker::Messages.result(session)
+				end
+				break unless play_again?
 			end
-			if session.won?
-				@console.puts Codebreaker::Messages.result(session)
-			elsif session.lost? 
-				@console.puts Codebreaker::Messages.result(session)
-			end
+			@console.puts Codebreaker::Messages.game_over
+		end
+
+		private
+
+		def play_again?
 			@console.puts Codebreaker::Messages.play_again
+			@console.gets&.strip&.downcase == 'y'
 		end
 	end
 end

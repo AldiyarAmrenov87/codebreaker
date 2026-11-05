@@ -37,5 +37,9 @@ module Codebreaker
 		def self.play_again
 			'Play again? (y/n):'
 		end
+
+		def self.game_over
+			'Game over!'
+		end
 	end
 end
