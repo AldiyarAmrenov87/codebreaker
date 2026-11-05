@@ -3,14 +3,21 @@ module Codebreaker
 		
 		describe '.welcome' do
 			it 'returns welcome message' do
-				expect(described_class.welcome).to eq("Welcome to Codebreaker!\nEnter guess:")
+				expect(described_class.welcome).to eq("Welcome to Codebreaker!")
+			end
+		end
+
+		describe '.session_number' do
+			it 'returns current session sequence number' do
+				number_of_sessions = 5
+				expect(described_class.session_number(number_of_sessions)).to eq("Round #5.")
 			end
 		end
 
 		describe '.prompt' do
 			it 'returns prompt text with remaining attempts count' do
 				attempts_left = 5
-				expect(described_class.prompt(attempts_left)).to eq('5 attempts left')
+				expect(described_class.prompt(attempts_left)).to eq('Enter guess (5 attempts left):')
 			end
 		end
 
@@ -70,6 +77,18 @@ module Codebreaker
 	        expect(described_class.result(session)).to be_nil
 	      end
 	    end
+		end
+
+		describe '.play_again' do
+			it 'returns a question asking whether the codebreaker wants to play again' do
+				expect(described_class.play_again).to eq('Play again? (y/n):')
+			end
+		end
+
+		describe '.game_over' do
+			it 'returns game over message' do
+				expect(described_class.game_over).to eq('Game over!')
+			end
 		end
 	end
 end
