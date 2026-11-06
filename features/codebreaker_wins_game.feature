@@ -12,13 +12,10 @@ Feature: codebreaker wins the game
 				And I should see a congratulatory message
 
 		    	Scenario: Victory after a few incorrect guesses
-	        		Given The secret code is "1234"
-			        When I successively enter the following guesses:
-		          		| 5555 |
-		          		| 1255 |
-		          		| 1234 |
-			        Then I should see the markings in the following order:
-			        	|      |
-						| ++   |
-						| ++++ |
-			        And I should see "Congratulations! You won!"
+					Given The secret codes are: "1234"
+					And The guesses are: "5555, 1255, 1234"
+					When I act out the scenario
+					Then I should see ""
+					And I should see "++"
+					And I should see "++++"
+					And I should see "Congratulations! You won!"

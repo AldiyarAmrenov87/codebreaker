@@ -6,15 +6,14 @@ Feature: Codebreaker plays multisession
 
 		Scenario: multisession
 
-			Given The secret codes are "1234, 4321"
-			And The game has "10, 1" attempts for sessions respectively
-			When I guess "1235"
-			And I guess "1234"
-			And I type "y"
-			And I guess "1324"
-			And I type "n"
+			Given The secret codes are: "1234, 4321"
+			And The game sessions with "10, 1" attempts left
+			And The guesses are: "1235, 1234"
+			And The answer to continue is "y"
+			And The guesses are: "1324"
+			And The answer to continue is "n"
 			
-			And I act out the scenario
+			When I act out the scenario
 			
 			Then I should see "Welcome to Codebreaker"
 			And I should see "Round #1."
