@@ -5,8 +5,8 @@ Given('The secret codes are: {string}') do |secret_codes_string|
   secret_code_instances = secret_codes_string.split(',').map do |secret|
     Codebreaker::SecretCode.new(secret.strip)
   end
-  
-  allow(Codebreaker::SecretCode).to receive(:generate).and_return(*secret_code_instances)
+
+  allow(configurator).to receive(:secret_code).and_return(*secret_code_instances)
 end
 
 Given("The guesses are: {string}") do |guesses_string|
@@ -19,8 +19,8 @@ end
 
 Given("The game sessions with {string} attempts left") do |attempts_string|
   attempts_array = attempts_string.split(',').map { |a| a.strip.to_i }
-
-  allow_any_instance_of(Codebreaker::Game).to receive(:attempts).and_return(*attempts_array)
+  
+  allow(configurator).to receive(:attempts).and_return(*attempts_array)
 end
 
 Given('The answer to continue is {string}') do |answer|

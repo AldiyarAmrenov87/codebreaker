@@ -13,11 +13,16 @@ module AppContext
   def fake_output
     @fake_output ||= StringIO.new
   end
+
+  def configurator
+    @configurator ||= Codebreaker::Configurator.new
+  end
   
   def cli
     @cli ||= Codebreaker::CLI.new(
       input: fake_input, 
-      output: fake_output
+      output: fake_output,
+      configurator: configurator
     )
   end
 

@@ -1,14 +1,13 @@
 module Codebreaker
 	class CLI
-		def initialize(input:, output:, attempts: 10)
+		def initialize(input:, output:, configurator:)
 			@console = Console.new(input: input, output: output)
-			@attempts = attempts
+			@configurator = configurator
 		end
 
 		def run
-			# собираем опции для игры
 			game_options = { console: @console }
-      game_options[:attempts] = @attempts
+      game_options[:configurator] = @configurator
 			
 			game = Game.new(**game_options)
 			game.start
