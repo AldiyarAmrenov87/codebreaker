@@ -2,11 +2,8 @@ Given('I am not yet playing') do
 end
 
 Given('The secret codes are: {string}') do |secret_codes_string|
-  secret_code_instances = secret_codes_string.split(',').map do |secret|
-    Codebreaker::SecretCode.new(secret.strip)
-  end
-
-  allow(configurator).to receive(:secret_code).and_return(*secret_code_instances)
+  code_generator = create_code_generator_for(secret_codes_string)
+  configurator.code_generator = code_generator
 end
 
 Given("The guesses are: {string}") do |guesses_string|
