@@ -34,3 +34,10 @@ Feature: Codebreaker plays multisession
 			And I should see "Play again? (y/n):"
 
 			Then I should see "Game over"
+
+		Scenario: The secret code is wrong
+			Given The secret codes are: "12345"
+			When I act out the scenario
+			Then I should not see "Round #1."
+			And I should see "Error: The secret code must consist of 4 digits. Sorry, we will fix it as soon as possible."
+			And I should see "Game over"

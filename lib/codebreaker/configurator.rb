@@ -1,15 +1,15 @@
 module Codebreaker
 	class Configurator
-		attr_reader :attempts
-		attr_writer :code_generator
+		attr_reader :attempts, :code_generator
 		
-		def initialize(code_generator: -> { SecretCode.generate }, attempts: 10)
+		def initialize(code_generator: Codebreaker::NumbersGenerator, attempts: 10)
 			@attempts = attempts
 			@code_generator = code_generator
 		end
 		
 		def secret_code
-			@code_generator.call
+			raw = code_generator.generate
+			Codebreaker::SecretCode.parse(raw)
 		end
 	end
 end

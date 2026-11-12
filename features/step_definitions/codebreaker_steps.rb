@@ -2,8 +2,15 @@ Given('I am not yet playing') do
 end
 
 Given('The secret codes are: {string}') do |secret_codes_string|
-  code_generator = create_code_generator_for(secret_codes_string)
-  configurator.code_generator = code_generator
+  secret_codes_array = secret_codes_string.split(',').map { |s| s.strip }
+  
+  allow(configurator.code_generator).to receive(:generate).and_return(*secret_codes_array)
+end
+
+Given("The game sessions with {string} attempts left") do |attempts_string|
+  attempts_array = attempts_string.split(',').map { |a| a.strip.to_i }
+  
+  allow(configurator).to receive(:attempts).and_return(*attempts_array)
 end
 
 Given("The guesses are: {string}") do |guesses_string|
@@ -12,12 +19,6 @@ Given("The guesses are: {string}") do |guesses_string|
   guesses.each do |guess|
     fake_input.puts(guess)
   end
-end
-
-Given("The game sessions with {string} attempts left") do |attempts_string|
-  attempts_array = attempts_string.split(',').map { |a| a.strip.to_i }
-  
-  allow(configurator).to receive(:attempts).and_return(*attempts_array)
 end
 
 Given('The answer to continue is {string}') do |answer|
@@ -49,4 +50,3 @@ Then(/^I should see match pattern \/(.+)\/$/) do |pattern_string|
   puts "Найдена строка: #{match_data}"
   consume_output_up_to!(match_data.to_s)
 end
-

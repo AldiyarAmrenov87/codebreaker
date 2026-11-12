@@ -17,15 +17,6 @@ module AppContext
   def configurator
     @configurator ||= Codebreaker::Configurator.new
   end
-
-  def create_code_generator_for(secret_codes_string)
-    secret_code_instances = secret_codes_string.split(',').map do |secret|
-      Codebreaker::SecretCode.new(secret.strip)
-    end
-
-    codes_enumerator = secret_code_instances.each 
-    return -> { codes_enumerator.next }
-  end
   
   def cli
     @cli ||= Codebreaker::CLI.new(
