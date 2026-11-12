@@ -14,17 +14,15 @@ module AppContext
     @fake_output ||= StringIO.new
   end
 
-  def attempts
-    @attempts ||= 10
+  def configurator
+    @configurator ||= Codebreaker::Configurator.new
   end
-  attr_writer :attempts
-
-  # Вместо Game мы теперь собираем и отдаем CLI (наш адаптер)
+  
   def cli
     @cli ||= Codebreaker::CLI.new(
       input: fake_input, 
-      output: fake_output, 
-      attempts: attempts
+      output: fake_output,
+      configurator: configurator
     )
   end
 

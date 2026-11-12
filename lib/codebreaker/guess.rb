@@ -17,7 +17,7 @@ module Codebreaker
 
     def validate!
       return if FORMAT.match?(value)
-      raise Codebreaker::InvalidGuess, :invalid_length
+      raise Codebreaker::InvalidGuess, :guess_invalid_length
     end
   end
 end

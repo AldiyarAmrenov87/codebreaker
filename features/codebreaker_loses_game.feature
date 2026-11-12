@@ -26,24 +26,24 @@ Feature: Codebreaker loses game
 		And The game should end
 
 	Scenario: Attempt counter decreases after an incorrect guess
-		Given The game has started with "5" attempts
-		And The secret code is "1234"
-		When I guess "2234"
-		Then I should see "4 attempts left"
+		Given The game sessions with "5" attempts left
+		And The secret codes are: "1234"
+		And The guesses are: "2234"
+		When I act out the scenario
+		Then I should see "Enter guess (4 attempts left):"
 		And I should not see "Congratulations! You won!"
 		And I should not see "You lose! The secret code is 1234"
 
 	Scenario: Losing the game when running out of attempts
-		Given The game has started with "3" attempts
-		And The secret code is "1234"
-		When I successively enter the following guesses:
-				| 5555 |
-				| 1255 |
-				| 1235 |
-		And I should see "You lose! The secret code is 1234"
+		Given The game sessions with "3" attempts left
+		And The secret codes are: "1234"
+		And The guesses are: "5555, 1255, 1235"
+		When I act out the scenario
+		Then I should see "You lose! The secret code is 1234"
 
 	Scenario: Winning on the last attempt
-		Given The game has started with "1" attempts
-		And The secret code is "1234"
-		When I guess "1234"
-		And I should see "Congratulations! You won!"
+		Given The game sessions with "1" attempts left
+		And The secret codes are: "1234"
+		And The guesses are: "1234"
+		When I act out the scenario
+		Then I should see "Congratulations! You won!"

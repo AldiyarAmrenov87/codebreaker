@@ -16,8 +16,9 @@ Feature: codebreaker_submits_guess
           For each number in the guess that matches the number and position of a number in the secret code, the mark includes one + sign. For each number in the guess that matches the number but not the position of a number in the secret code, the mark includes one - sign.
 
       Scenario Outline: submit guess
-        Given The secret code is "<code>"
-        When I guess "<guess>"
+        Given The secret codes are: "<code>"
+        And The guesses are: "<guess>"
+        When I act out the scenario
         Then I should see "<mark>"
         
         Scenarios: no matches
@@ -50,12 +51,9 @@ Feature: codebreaker_submits_guess
           | 1234 | 4321  | ---- |
 
       Scenario: submit guesses successively
-        Given The secret code is "0697"
-        When I successively enter the following guesses:
-            | 0679 |
-            | 6089 |
-            | 0697 |
-        Then I should see the markings in the following order:
-            | ++-- |
-            | ---  |
-            | ++++ |
+        Given The secret codes are: "0697"
+        And The guesses are: "0679, 6089, 0697"
+        When I act out the scenario
+        Then I should see "++--"
+        And I should see "---"
+        And I should see "++++"

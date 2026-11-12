@@ -32,11 +32,19 @@ module Codebreaker
 
 		describe '.error' do
 			it 'returns formatted error message' do
-		  	error_code = :invalid_length
+		  	error_code = :guess_invalid_length
 
 		    expect(described_class.error(error_code)).to eq("Error: You need to enter exactly 4 digits. Attempt not counted.")
+		  end
+
+		  it 'returns formatted error message' do
+		  	error_code = :secret_code_invalid_length
+
+		    expect(described_class.error(error_code)).to eq("Error: The secret code must consist of 4 digits. Sorry, we will fix it as soon as possible.")
 		   end
 	  end
+
+
 
 		describe '.result' do
 			# Задаем базового двойника для сессии (игры)

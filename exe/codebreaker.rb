@@ -3,5 +3,5 @@ require 'codebreaker'
 Codebreaker::CLI.new(
   input:  $stdin,
   output: $stdout,
-  attempts: 10
+  configurator: Codebreaker::Configurator.new
 ).run

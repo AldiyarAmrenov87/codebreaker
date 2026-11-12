@@ -1,57 +1,27 @@
 Given('I am not yet playing') do
 end
 
-Given("{string} attempts to guess the secret code") do |string|
-  @attempts = string.to_i
-end
-
-Given('The secret code is {string}') do |secret|
-  secret_code_instance = Codebreaker::SecretCode.new(secret)
+Given('The secret codes are: {string}') do |secret_codes_string|
+  secret_codes_array = secret_codes_string.split(',').map { |s| s.strip }
   
-  allow(Codebreaker::SecretCode).to receive(:generate).and_return(secret_code_instance)
+  allow(configurator.code_generator).to receive(:generate).and_return(*secret_codes_array)
 end
 
-Given('The secret codes are {string}') do |secret_codes_string|
-  secret_code_instances = secret_codes_string.split(',').map do |secret|
-    Codebreaker::SecretCode.new(secret.strip)
-  end
-  
-  allow(Codebreaker::SecretCode).to receive(:generate).and_return(*secret_code_instances)
-end
-
-Given('The game has {string} attempts for sessions respectively') do |attempts_string|
+Given("The game sessions with {string} attempts left") do |attempts_string|
   attempts_array = attempts_string.split(',').map { |a| a.strip.to_i }
-
-  allow_any_instance_of(Codebreaker::Game).to receive(:attempts).and_return(*attempts_array)
-end
-
-When('I start a new game') do
-  cli.run
-end
-
-Then('I should see {string}') do |string|
-  # all_text = fake_output.string
   
-  # expect(all_text).to include(string)
-
-  expect(fresh_output).to include(string)
-  consume_output_up_to!(string)
+  allow(configurator).to receive(:attempts).and_return(*attempts_array)
 end
 
-Then('I should not see {string}') do |unexpected_string|
-  # all_text = fake_output.string
+Given("The guesses are: {string}") do |guesses_string|
+  guesses = guesses_string.split(',').map(&:strip)
   
-  # expect(all_text).not_to include(unexpected_string)
-  expect(fresh_output).not_to include(unexpected_string)
+  guesses.each do |guess|
+    fake_input.puts(guess)
+  end
 end
 
-When('I guess {string}') do |guess|
-  fake_input.puts(guess)
-  #fake_input.rewind
-  #cli.run
-end
-
-When('I type {string}') do |answer|
+Given('The answer to continue is {string}') do |answer|
   fake_input.puts(answer)
 end
 
@@ -60,19 +30,23 @@ When('I act out the scenario') do
   cli.run
 end
 
-When('I successively enter the following guesses:') do |table|
-  guesses = table.raw.flatten
-  inputs = guesses.map { |guess| "#{guess}\n" }
-  allow(fake_input).to receive(:gets).and_return(*inputs)
-  cli.run
+Then('I should see {string}') do |string|
+  expect(fresh_output).to include(string)
+
+  consume_output_up_to!(string)
 end
 
-Then('I should see the markings in the following order:') do |table|
-  expected_marks = table.raw.flatten
-  all_text = fake_output.string
-  expected_marks.each do |mark|
-    expect(all_text).to include(mark)
-  end
+Then('I should not see {string}') do |unexpected_string|
+  expect(fresh_output).not_to include(unexpected_string)
 end
 
+Then(/^I should see match pattern \/(.+)\/$/) do |pattern_string|
+  regex = Regexp.new(pattern_string)
 
+  expect(fresh_output).to match(regex)
+  
+  match_data = fresh_output.match(regex)
+  expect(match_data).not_to be_nil, "Expected text to match /#{pattern_string}/, but it didn't."
+  puts "Найдена строка: #{match_data}"
+  consume_output_up_to!(match_data.to_s)
+end
