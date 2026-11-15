@@ -2,16 +2,16 @@ require 'stringio'
 
 module Codebreaker
   describe Match do
-    let(:input) { StringIO.new("1234\n") }
+    let(:input) { StringIO.new("1235\n1234\n") }
     let(:output) { StringIO.new }
     let(:console) { Console.new(input: input, output: output) }
 
     subject(:match) do
       described_class.new(
         console: console, 
-        round: 1, 
-        secret_code: '1234', 
-        attempts: 1)
+        match_number: 1, 
+        secret_code: Codebreaker::SecretCode.new('1234'), 
+        attempts: 2)
     end
 
     it "starts without session" do
