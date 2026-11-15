@@ -4,7 +4,7 @@ module Codebreaker
 
     def self.evaluate(secret_code:, guess:)
       @@secret_code_value = secret_code.value.dup
-      @@guess_value = guess.value
+      @@guess_value = guess.value.dup
       new(self.exact_match_count, self.number_match_count)
     end
 

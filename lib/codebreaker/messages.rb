@@ -10,8 +10,8 @@ module Codebreaker
 			"Welcome to Codebreaker!"
 		end
 
-		def self.session_number(number_of_sessions)
-			"Round ##{number_of_sessions}."
+		def self.match_number(number_of_match)
+			"Round ##{number_of_match}."
 		end
 
 		def self.prompt(attempts_left)

@@ -7,10 +7,10 @@ module Codebreaker
 			end
 		end
 
-		describe '.session_number' do
-			it 'returns current session sequence number' do
-				number_of_sessions = 5
-				expect(described_class.session_number(number_of_sessions)).to eq("Round #5.")
+		describe '.match_number' do
+			it 'returns current matches sequence number' do
+				number_of_match = 5
+				expect(described_class.match_number(number_of_match)).to eq("Round #5.")
 			end
 		end
 
