@@ -3,11 +3,11 @@ module Codebreaker
 		def initialize(**options)
 			@console = options[:console]
 			@configurator = options[:configurator]
-			@matches = []
 		end
 
 		def start
 			@console.puts Codebreaker::Messages.welcome
+			campaign = Codebreaker::Campaign.new
 			loop do
 				begin
 					next_match = Codebreaker::Match.new(
@@ -17,13 +17,14 @@ module Codebreaker
 						attempts: @configurator.attempts
 						)
 					next_match.play
-					@matches << next_match
+					campaign.add(next_match)
 					break unless play_again?
 				rescue Codebreaker::InvalidSecretCode => e
 					@console.puts Codebreaker::Messages.error(e.code)
 					break
 				end
 			end
+			@console.puts Codebreaker::Messages.statistics(campaign)
 			@console.puts Codebreaker::Messages.game_over
 		end
 
