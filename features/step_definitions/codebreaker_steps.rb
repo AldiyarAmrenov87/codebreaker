@@ -21,6 +21,22 @@ Given("The guesses are: {string}") do |guesses_string|
   end
 end
 
+Given("The guesses are:") do |table|
+  # Группируем строки по значению в столбце 'session'
+  sessions = table.hashes.group_by { |row| row['session'] }.values
+
+  sessions.each_with_index do |session_rows, index|
+    # 1. Отправляем все догадки текущей сессии
+    session_rows.each do |row|
+      fake_input.puts(row['guess'])
+    end
+
+    # 2. После завершения сессии отвечаем на вопрос о продолжении игры
+    is_last_session = (index == sessions.size - 1)
+    fake_input.puts(is_last_session ? 'n' : 'y')
+  end
+end
+
 Given('The answer to continue is {string}') do |answer|
   fake_input.puts(answer)
 end
@@ -34,6 +50,12 @@ Then('I should see {string}') do |string|
   expect(fresh_output).to include(string)
 
   consume_output_up_to!(string)
+end
+
+Then('I should see:') do |expected_text|
+  expect(fresh_output).to include(expected_text)
+
+  consume_output_up_to!(expected_text)
 end
 
 Then('I should not see {string}') do |unexpected_string|
