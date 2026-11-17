@@ -12,7 +12,7 @@ module Codebreaker
 				begin
 					next_match = Codebreaker::Match.new(
 						console: @console, 
-						match_number: @matches.size + 1, 
+						match_number: campaign.size + 1, 
 						secret_code: @configurator.secret_code, 
 						attempts: @configurator.attempts
 						)

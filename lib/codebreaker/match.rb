@@ -32,5 +32,8 @@ module Codebreaker
 			end
 			@session = session
 		end
+
+    def won?      = @session&.won?  || false
+    def lost?     = @session&.lost? || false
 	end
 end

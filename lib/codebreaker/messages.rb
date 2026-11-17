@@ -39,6 +39,15 @@ module Codebreaker
 			'Play again? (y/n):'
 		end
 
+    def self.statistics(campaign)
+      <<~TEXT
+        === Campaign summary ===
+        Matches: #{campaign.total}
+        Won: #{campaign.won_count}
+        Lost: #{campaign.lost_count}
+      TEXT
+    end
+
 		def self.game_over
 			'Game over!'
 		end
