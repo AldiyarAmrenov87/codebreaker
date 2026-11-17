@@ -14,11 +14,30 @@ module Codebreaker
         attempts: 2)
     end
 
-    it "starts without session" do
-      expect(match.session).to be_nil
+    it "starts unfinished" do
+      expect(match).not_to be_won
+      expect(match).not_to be_lost
     end
 
     describe '#play' do
+      it "becomes finished after play" do 
+        match.play
+        expect(match).to be_won.or be_lost
+      end
+
+      it "becomes won on correct guess" do 
+        match.play
+        expect(match).to be_won
+      end
+
+      context "when match is lost" do
+        let(:input) { StringIO.new("1235\n1235\n") }
+        it "becomes lost" do 
+          match.play
+          expect(match).to be_lost
+        end
+      end
+
       it 'stores instance of Session with won or lost status' do
         match.play
         expect(match.session).to be_an_instance_of(Session)

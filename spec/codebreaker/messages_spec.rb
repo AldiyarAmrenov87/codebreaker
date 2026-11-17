@@ -44,8 +44,6 @@ module Codebreaker
 		   end
 	  end
 
-
-
 		describe '.result' do
 			# Задаем базового двойника для сессии (игры)
     	let(:session) { instance_double('Codebreaker::Session') }
@@ -92,6 +90,26 @@ module Codebreaker
 				expect(described_class.play_again).to eq('Play again? (y/n):')
 			end
 		end
+
+    describe '.statistics' do
+      it 'formats the campaign summary message' do
+        campaign = instance_double(
+          Campaign,
+          total: 10,
+          won_count: 6,
+          lost_count: 4
+        )
+
+        expected_output = <<~TEXT
+          === Campaign summary ===
+          Matches: 10
+          Won: 6
+          Lost: 4
+        TEXT
+
+        expect(described_class.statistics(campaign)).to eq(expected_output)
+      end
+    end
 
 		describe '.game_over' do
 			it 'returns game over message' do
