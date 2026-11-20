@@ -4,7 +4,7 @@ module Codebreaker
   class InvalidGuess < Error
     attr_reader :code
 
-    def initialize(code = :guess_invalid_length)
+    def initialize(code = :invalid_format)
       @code = code
       super("Invalid guess error code: #{code}") # Или просто пустая строка
     end
