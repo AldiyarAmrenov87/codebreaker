@@ -14,7 +14,8 @@ module Codebreaker
 						console: @console, 
 						match_number: campaign.size + 1, 
 						secret_code: @configurator.secret_code, 
-						attempts: @configurator.attempts
+						attempts: @configurator.attempts, 
+            guesser: Codebreaker::Guesser.new(number_length: @configurator.number_length, max_digit: @configurator.max_digit)
 						)
 					next_match.play
 					campaign.add(next_match)

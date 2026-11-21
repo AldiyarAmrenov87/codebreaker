@@ -15,7 +15,7 @@ module AppContext
   end
 
   def configurator
-    @configurator ||= Codebreaker::Configurator.new
+    @configurator ||= Codebreaker::Configurator.new(attempts: 10, number_length: 4, max_digit: 5)
   end
   
   def cli

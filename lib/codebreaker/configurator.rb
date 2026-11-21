@@ -1,9 +1,11 @@
 module Codebreaker
 	class Configurator
-		attr_reader :attempts, :code_generator
+		attr_reader :attempts, :code_generator, :number_length, :max_digit
 		
-		def initialize(code_generator: Codebreaker::NumbersGenerator, attempts: 10)
+		def initialize(code_generator: Codebreaker::NumbersGenerator, attempts:, number_length:, max_digit:)
 			@attempts = attempts
+      @number_length = number_length
+      @max_digit = max_digit
 			@code_generator = code_generator
 		end
 		

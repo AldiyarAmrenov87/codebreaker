@@ -1,9 +1,12 @@
 module Codebreaker
 	class Messages
-		ERROR_MESSAGES = {
-      guess_invalid_length: 'You need to enter exactly 4 digits. Attempt not counted.',
-      out_of_range: 'Digits must be from 1 to 6', # например, если добавится еще правило
-      secret_code_invalid_length: 'The secret code must consist of 4 digits. Sorry, we will fix it as soon as possible.'
+    ERROR_MESSAGES = {
+      guess: {
+        invalid_format: 'Please, follow the format for guesses. Attempt not counted.'
+      },
+      secret_code: {
+        invalid_format: 'Something went wrong. Sorry, we will fix it as soon as possible.'
+      }
     }.freeze
 
 		def self.welcome
@@ -22,9 +25,9 @@ module Codebreaker
      	marker.to_s
     end
 
-		def self.error(error_code)
-			message = ERROR_MESSAGES[error_code] || 'Unknown error'
-    	"Error: #{message}"
+		def self.error(object_name, error_code)
+			message = ERROR_MESSAGES[object_name][error_code] || 'Unknown error'
+    	"#{message}"
 		end
 
 		def self.result(session)

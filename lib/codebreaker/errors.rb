@@ -1,21 +1,24 @@
 module Codebreaker
-  class Error < StandardError; end
-
-  class InvalidGuess < Error
+  class Error < StandardError
     attr_reader :code
 
-    def initialize(code = :invalid_format)
+    def initialize(code)
       @code = code
-      super("Invalid guess error code: #{code}") # Или просто пустая строка
+      super("Validation failed for #{object_name}: #{code}")
+    end
+
+    def object_name
+      # "Codebreaker::InvalidSecretCode" -> "InvalidSecretCode" -> "SecretCode" -> :secret_code
+      self.class.name.split('::').last
+          .delete_prefix('Invalid')
+          .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+          .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+          .downcase
+          .to_sym
     end
   end
 
-  class InvalidSecretCode < Error
-    attr_reader :code
+  class InvalidGuess < Error; end
 
-    def initialize(code = :secret_code_invalid_length)
-      @code = code
-      super("Invalid secret code error code: #{code}") # Или просто пустая строка
-    end
-  end
+  class InvalidSecretCode < Error; end
 end

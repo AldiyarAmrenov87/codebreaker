@@ -11,7 +11,9 @@ module Codebreaker
         console: console, 
         match_number: 1, 
         secret_code: Codebreaker::SecretCode.new('1234'), 
-        attempts: 2)
+        attempts: 2,
+        guesser: Codebreaker::Guesser.new(number_length: 4, max_digit: 5)
+        )
     end
 
     it "starts unfinished" do
