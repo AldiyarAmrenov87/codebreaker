@@ -14,15 +14,20 @@ module AppContext
     @fake_output ||= StringIO.new
   end
 
-  def configurator
-    @configurator ||= Codebreaker::Configurator.new(attempts: 10, number_length: 4, max_digit: 5)
+  def code_generator
+    @code_generator ||= Codebreaker::CodeGenerator.new(number_length: 4, max_digit: 5)
+  end
+
+  def attempts
+    @attempts ||= 10
   end
   
   def cli
     @cli ||= Codebreaker::CLI.new(
       input: fake_input, 
       output: fake_output,
-      configurator: configurator
+      code_generator: code_generator,
+      attempts: attempts
     )
   end
 

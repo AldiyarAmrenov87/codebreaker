@@ -4,13 +4,11 @@ end
 Given('The secret codes are: {string}') do |secret_codes_string|
   secret_codes_array = secret_codes_string.split(',').map { |s| s.strip }
   
-  allow(configurator.code_generator).to receive(:generate).and_return(*secret_codes_array)
+  allow(code_generator).to receive(:generate).and_return(*secret_codes_array)
 end
 
-Given("The game sessions with {string} attempts left") do |attempts_string|
-  attempts_array = attempts_string.split(',').map { |a| a.strip.to_i }
-  
-  allow(configurator).to receive(:attempts).and_return(*attempts_array)
+Given("The match with {string} attempts left") do |string|
+  @attempts = string.to_i
 end
 
 Given("The guesses are: {string}") do |guesses_string|

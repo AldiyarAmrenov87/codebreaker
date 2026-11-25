@@ -38,11 +38,12 @@ module Codebreaker
 		    expect(described_class.error(object_name, error_code)).to eq('Please, follow the format for guesses. Attempt not counted.')
 		  end
 
-		  #it 'returns formatted error message' do
-		  #	error_code = :secret_code_invalid_length
+      it 'returns formatted error message' do
+        object_name = :secret_code
+        error_code = :invalid_format
 
-		  #  expect(described_class.error(error_code)).to eq("Error: The secret code must consist of 4 digits. Sorry, we will fix it as soon as possible.")
-		  # end
+        expect(described_class.error(object_name, error_code)).to eq('The secret code format is invalid. Sorry, we will fix it as soon as possible.')
+      end
 	  end
 
 		describe '.result' do
@@ -104,8 +105,8 @@ module Codebreaker
         expected_output = <<~TEXT
           === Campaign summary ===
           Matches: 10
-          Won: 6
-          Lost: 4
+          Won:     6
+          Lost:    4
         TEXT
 
         expect(described_class.statistics(campaign)).to eq(expected_output)

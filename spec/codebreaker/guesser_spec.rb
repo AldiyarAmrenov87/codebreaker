@@ -13,9 +13,9 @@ RSpec.describe Codebreaker::Guesser do
       end
       
       context 'when there are extra spaces at the edges' do
-        it 'it returns an instance of Guess' do
+        it 'it cleans value from extra spaces' do
           returned_result = guesser.guess('   0125   ')
-          expect(returned_result).to be_an_instance_of(Codebreaker::Guess)
+          expect(returned_result.value).to eq('0125')
         end
       end
     end

@@ -5,8 +5,8 @@ module Codebreaker
         invalid_format: 'Please, follow the format for guesses. Attempt not counted.'
       },
       secret_code: {
-        invalid_format: 'Something went wrong. Sorry, we will fix it as soon as possible.'
-      }
+        invalid_format: 'The secret code format is invalid. Sorry, we will fix it as soon as possible.'
+      },
     }.freeze
 
 		def self.welcome
@@ -46,8 +46,8 @@ module Codebreaker
       <<~TEXT
         === Campaign summary ===
         Matches: #{campaign.total}
-        Won: #{campaign.won_count}
-        Lost: #{campaign.lost_count}
+        Won:     #{campaign.won_count}
+        Lost:    #{campaign.lost_count}
       TEXT
     end
 
