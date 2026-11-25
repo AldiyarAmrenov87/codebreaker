@@ -3,7 +3,6 @@ RSpec.describe Codebreaker::Campaign do
 
   let(:won_match)  { instance_double('Match', finished?: true, won?: true,  lost?: false) }
   let(:lost_match) { instance_double('Match', finished?: true, won?: false, lost?: true) }
-  let(:unfinished) { instance_double('Match', finished?: false) }
 
   it 'starts empty' do
     expect(campaign.size).to eq(0)

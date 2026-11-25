@@ -51,8 +51,8 @@ Feature: codebreaker_submits_guess
           | 1234 | 4321  | ---- |
 
       Scenario: submit guesses successively
-        Given The secret codes are: "0697"
-        And The guesses are: "0679, 6089, 0697"
+        Given The secret codes are: "0241"
+        And The guesses are: "0214, 2015, 0241"
         When I act out the scenario
         Then I should see "++--"
         And I should see "---"
